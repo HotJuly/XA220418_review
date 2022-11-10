@@ -1,0 +1,82 @@
+# 区别localStorage,sessionStorage以及cookie
+
+1. 生命周期
+   1. cookie
+      1. 如果有max-age属性,只要当前时间没有超过最大的存活时间,那么就会长期存在
+      2. 如果没有max-age属性,那么当前cookie就是会话级cookie,只要关闭标签页或者浏览器,数据就会丢失
+   2. localStorage(持久化存储)
+      1. 只要不主动删除该数据,那么存储于内部的数据将会永久存在
+   3. sessionStorage(会话级存储)
+      1. 关闭标签页或者关闭浏览器,都会导致sessionStorage中的数据丢失
+      2. 注意:刷新页面是不会销毁sessionStorage的
+2. 存储位置
+   1. cookie
+      1. 如果有max-age属性,存储于硬盘中
+      2. 如果没有max-age属性,存储于内存中
+   2. localStorage(持久化存储)
+      1. 存储于硬盘中
+   3. sessionStorage(会话级存储)
+      1. 存储于内存中
+3. 存储大小
+   1. cookie->4KB
+   2. localStorage->一般都是5MB,IE是3012KB
+   3. sessionStorage->一般都是5MB,IE是3012KB
+4. 与服务器之间的关系
+   1. cookie(被借用的本地存储)
+      1. cookie是服务器创建,浏览器存储
+      2. 服务器会在响应头中添加**set-cookie**属性,属性值是cookie的数据,来向浏览器传递数据
+      3. 浏览器会在请求头中添加**cookie**属性,属性值是所有cookie拼接的结果,来向服务器发送数据
+      4. 在传递的过程中,浏览器需要自动存储,自动发送cookie,而服务器只需要在响应头中添加属性名即可
+   2. localStorage
+      1. 与服务器不熟,没有任何关系
+   3. sessionStorage
+      1. 与服务器不熟,没有任何关系
+5. 作用范围
+   1. cookie
+      1. domain属性
+         1. 假设:domain=".baidu.com"
+         2. 如果是以上写法,那么当前cookie可以在.baidu.com衍生出来的后代域名中访问使用
+         3. 简单总结:**子域名可以访问父域名的cookie,但是父域名不能使用子域名的cookie**
+      2. path属性
+         1. 假设:path="/a"
+         2. 如果是以上写法,那么当前cookie可以在/a的后代路由中访问使用,例如"/a/b"
+         3. 但是父路由和兄弟路由无法访问使用
+         4. 简单总结:**子路由可以访问父路由的cookie,父路由不能访问子路由的cookie**
+   2. localStorage
+      1. 只有在同域名的情况下可见
+      2. 可以跨标签页通信,多个标签页共享同一份localStorage数据
+         1. 有点像是浅拷贝
+   3. sessionStorage
+      1. sessionStorage只能在当前标签页中使用
+      2. 只有在同一个标签页中,打开同一个域名才能使用
+      3. 注意:如果是复制一个标签,那么旧标签页中的sessionStorage也会被复制一份,但是与旧的互不影响(类似于深拷贝)
+6. 使用场景
+   1. cookie
+      1. 服务器可以将需要存储的数据保存在用户的浏览器中,可以减少服务器的开销
+      2. 而且发送请求的时候,会自动携带上
+      3. 使用场景:服务器存储一些用户id或者购物车信息之类的内容
+   2. localStorage
+      1. 如果有某个数据,需要在下次打开项目的时候还能使用,那么就选择localStorage
+         1. 因为localStorage存储的数据,只要不删除都会永久存在,所以可以保存一些长期有效的数据
+   3. sessionStorage
+      1. 如果有某个数据,只是当前本轮运行项目需要使用,那么就选择sessionStorage
+         1. 因为sessionStorage数据存储于内存中,计算速度和读写速度都远胜localStorage
+7. **面试题:如何跨标签页通信?**
+   1. **假设场景,A页面存储数据,B页面接收使用数据**
+   2. **通过localStorage实现**
+      1. **B页面通过给window绑定事件监听localStorage的存储,事件名:storage**
+      2. **A页面通过API给当前网页存储localStorage数据,就会触发B页面的事件监听**
+      3. **注意:该方法只能适用于两个页面的域名相同的情况下**
+   3. **使用domain属性实现**
+      1. **B页面使用window.open方法打开一全新的标签页(A页面)**
+         1. **此时window.open方法会返回打开的标签页的window对象(简称w1对象)**
+      2. **A页面修改自己的document.domain属性,将其改为两个页面共同的顶级域名**
+         1. **例如案例中的baidu.com是www.baidu.com和map.baidu.com的共同顶级域名**
+      3. **A页面在自己的window对象身上添加需要传递的数据即可**
+      4. **B页面修改自己的document.domain属性,将其改为两个页面共同的顶级域名**
+      5. **B页面可以通过流程1中,得到的w1对象,访问A页面的数据**
+      6. **注意:该方法可以是用于同一家公司不同的域名中**
+   4. **通过url传参**
+      1. **在跳转B页面的时候,在B页面的路径中拼接需要传递的数据即可**
+      2. **B页面显示之后,可以通过window.location获取相关的数据**
+      3. **注意:该方法只能在跳转页面的时候传递数据,所以频率很低**
