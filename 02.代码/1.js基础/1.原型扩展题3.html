@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            如果对一个基本数据类型进行属性的添加或者读取,
+                1.js都会在内存中创建一个相同的包装类对象
+                2.js在本行代码执行结束之后,会立即销毁刚才创建的包装类对象
+
+            number->Number
+            string->String
+            boolean->Boolean
+        
+        */
+    //    String.prototype.title="666";
+
+        // var str = "hello";
+        // str.title = "world";
+        // console.log(str + str.title)
+
+        
+        var num = 123;
+        num.count = 4;
+        console.log(num + num.count)
+    </script>
+</body>
+</html>

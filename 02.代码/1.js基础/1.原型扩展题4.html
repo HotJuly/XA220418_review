@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            需求:现在有一个data变量,内部存储了数据,需要知道该数据是什么数据类型?
+            解决:
+                1.typeof
+                    语法:typeof data
+                    返回数据的数据类型:string
+                    返回值的情况:
+                        "string","number","boolean","undefined","object","function",
+                        "symbol","bigint"
+
+                    优点:
+                        可以快速分辨数据类型
+
+                    缺点:
+                        1.会将null错误识别为object
+                        2.无法精确分辨对象数据类型
+
+                    扩展:
+                        1.后端可以返回一个非常长的数字给我们,我们会下意识的拿去进行数学计算,可能会丢失精度
+
+                2.instanceof
+                    语法: A instanceof B
+                    作用:可以检查A是否是B的实例对象(换种说法:A数据是不是B数据类型)
+                    返回值数据类型:布尔值
+                    返回值:true(是该类型)或者false(不是)
+
+                    优点:
+                        能够精确判断A是不是B类型
+
+                    缺点:
+                        他只能判断A是不是哪种类型,无法随机判断
+
+                3.原型对象的构造器属性
+
+                4.使用Object的toString方法
+                    为什么不直接使用数组的toString方法
+                        因为数组的toString是重写过的,他打印的是当前内容拼接起来的字符串
+
+                    
+        */
+
+        // var data = [1,2,3];
+        var data = new Date();
+        // console.log(data instanceof Array)
+        // console.log(data.__proto__.constructor)
+
+        // var obj = {
+        //     name:"xiaoming"
+        // };
+
+        // console.log(obj.toString())
+        // console.log(data.toString())
+
+        console.log(Object.prototype.toString.call(data).split(" ")[1].replace("]",""))
+    </script>
+</body>
+</html>
