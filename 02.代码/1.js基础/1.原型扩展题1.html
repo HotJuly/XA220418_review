@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+    /*
+        原型相关面试题注意点:
+            1.到底是在添加属性还是在修改原型对象
+            2.是在new之前修改的,还是new之后修改的
+    
+    */
+      function Person(name) {
+        this.name = name;
+      }
+
+    //   Person.prototype.c = 1;
+    //   Person.prototype = {
+    //     c:1
+    //   };
+
+      var p1 = new Person("xiaoming");
+
+    //   Person.prototype.c = 1;
+      Person.prototype = {
+        c:1
+      };
+
+      console.log(p1.c);
+    </script>
+  </body>
+</html>

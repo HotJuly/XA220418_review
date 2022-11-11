@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+        原型相关
+          读取属性:如果自己没有需要的属性,会走原型链
+          设置属性:如果自己没有该属性,就添加该属性,不会走原型链
+      
+      */
+      function Person(name) {
+        this.name = name;
+      }
+
+      Person.prototype.c = 1;
+
+      var p1 = new Person("xiaoming");
+
+      p1.c+=1;
+      // p1.c = p1.c + 1
+      // p1.c = p1.__proto__.c + 1
+      // p1.c = Person.prototype.c + 1
+      // p1.c = 1 + 1
+
+      console.log(p1,p1.c,Person.prototype.c);
+    </script>
+  </body>
+</html>

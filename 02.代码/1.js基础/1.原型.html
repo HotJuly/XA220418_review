@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            平常都会说, 首字母大写的就是构造函数,其实不一定:Math
+
+            构造函数的用处:可以创造属于自己的实例对象
+
+            如何区分一个函数是否是构造函数?
+                通过函数的声明是无法区分一个函数是否是构造函数的,
+                只有通过new调用的函数,才能称为构造函数
+        */
+
+        /*
+            js中,内存分为几部分?
+                一共具有堆内存和栈内存
+                栈内存
+                    只能存储基本数据类型,对象的地址值,标识
+
+                堆内存
+                    可以存放对象数据类型,也可以存放基本数据类型(不过需要通过属性来存储)
+        
+            注意:变量名和函数名,是同一个东西,统称为标识
+        */
+
+        /*
+            原型相关
+                1.每个实例对象都有隐式原型属性(__proto__)
+                2.每个构造函数都有显式原型属性(prototype)
+                    问题:请问普通函数有没有原型对象
+                        其实所有的函数都有原型对象,只是说普通函数不会有实例对象,所以不去研究
+
+                3.对象的隐式原型指向构造函数的显式原型
+                4.每个原型对象身上都有一个constructor属性执行自己对应的构造函数
+        
+            原型的用处
+                如果实例对象使用某个属性,自己没有该属性,就会顺着__proto__向上查找,
+                    找到自己的原型对象,从他身上获取使用
+
+                可以节省内存空间的开销,将大家共享的方法都存放在原型对象上
+        */
+
+        /*
+            new做的事情
+                1.同步执行内部的代码,同时将传入的实参交给形参存储
+                    形参其实就是函数内部的局部变量
+
+                2.会自动声明this变量,并向内部注入一个实例对象
+
+                3.将实例对象的隐式原型属性,修改为当前构造函数的显示原型属性中的值
+
+                4.会自动return实例对象的地址值
+                    如果return的是基本数据类型,那么还是默认返回实例对象的地址值
+                    如果return的是对象数据类型,那么就会返回该对象的地址值(他不是当前构造函数的实例对象)
+
+        
+        */
+        // function Person(){
+        //     console.log(this)
+        // }
+
+        // function person(){
+        //     console.log(this)
+        // }
+
+        // var p1 = Person();
+        // var p2 = new Person();
+
+        // //-----------------------------------
+        // function Person(name){
+        //     this.name = name
+        //     // this.eat=function(){
+        //     //     console.log('eat')
+        //     // }
+
+        //     // return 123;
+        //     // return {
+        //     //     name:"老王"
+        //     // }
+        // }
+
+        // Person.prototype.eat=function(){
+        //     console.log('eat')
+        // }
+
+        // var p1 = new Person("xiaoming");
+        // var p2 = new Person("xiaoming");
+        // var p3 = new Person("xiaoming");
+        // var p4 = new Person("xiaoming");
+        // var p5 = new Person("xiaoming");
+        // // console.log(p1.eat===p2.eat)
+        // console.log(p1)
+
+        //------------------------------
+        
+        function Person(name){
+            var that = new Object;
+            that.name = name
+
+            that.__proto__ = Person.prototype;
+
+            return that
+        }
+
+        var p1 = Person("xiaoming");
+        console.log(p1)
+    </script>
+</body>
+</html>
