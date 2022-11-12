@@ -16,33 +16,83 @@
       aaaaaaa
   </div>
   <script>
-      Promise.resolve().then(() => { // 微任务
-          alert('promise1') // 页面渲染了吗?
-      }) 
+    /*
+      任务的执行流程:
+        主线程代码优先执行->清空微任务队列->GUI线程渲染页面->执行下一个宏任务
+        如果执行结束一个宏任务之后,微任务队列中如果有东西,那么就继续清空微任务队列
 
-      Promise.resolve().then(() => { // 微任务
-          alert('promise2') // 页面渲染了吗?
-      }) 
+    如果页面出现更新操作
+        执行顺序:清空所有的微任务->使用GUI线程渲染页面->执行下一个宏任务
 
-      setTimeout(() => {// 宏任务
-          alert(document.getElementById('content').innerHTML)  // 页面渲染了吗?
-      }, 0)
+        渲染页面是GUI线程所做的事情
+        JS线程只负责js代码的执行
+        以上两个线程是互斥操作
 
-      document.getElementById('test').onclick = () => {// 宏任务
-          document.getElementById('content').innerHTML = 'xxxx'
+        渲染页面是异步操作
+    
+        问题:挂载和渲染是不是同一个东西?
+        回答:
+            不是同一个东西
+            页面必须挂载结束之后,才会开始渲染
+            挂载:将DOM结构添加到html节点内部
+            渲染:将html节点的内容绘制到页面上
 
-          alert(document.getElementById('content').innerHTML)
+            挂载操作是同步生效的
+            渲染操作是异步生效的
 
-          setTimeout(() => {// 宏任务  
-              alert(document.getElementById('content').innerHTML) // 页面更新渲染了吗?
-          }, 0); 
+        扩展问题:为什么ES6要新增微任务这个东西?
+            如果两个宏任务中都修改了页面,页面渲染2次
+            如果两个微任务都修改了页面,页面渲染1次(类似于防抖操作)
+        
+    */
+    //   Promise.resolve().then(() => { // 微任务
+    //       alert('promise1') // 页面渲染了吗?
+    //   }) 
 
-          Promise.resolve().then(() => { // 微任务 
-              alert('promise3') //页面更新渲染了吗?
-          }) 
-      }
+    //   Promise.resolve().then(() => { // 微任务
+    //       alert('promise2') // 页面渲染了吗?
+    //   }) 
+
+    //   setTimeout(() => {// 宏任务
+    //       alert(document.getElementById('content').innerHTML)  // 页面渲染了吗?
+    //   }, 0)
+
+    //   document.getElementById('test').onclick = () => {// 宏任务
+
+    //     // 渲染是异步的
+    //     // 连续修改多次DOM,页面不会立即渲染,人肉眼识别极限也看不出来
+    //       document.getElementById('content').innerHTML = 'xxxx'
+    //       document.getElementById('content').innerHTML = 'xxxx1'
+    //       document.getElementById('content').innerHTML = 'xxxx2'
+    //       document.getElementById('content').innerHTML = 'xxxx3'
+    //       document.getElementById('content').innerHTML = 'xxxx4'
+    //       document.getElementById('content').innerHTML = 'xxxx5'
+    //       document.getElementById('content').innerHTML = 'xxxx6'
+    //       document.getElementById('content').innerHTML = 'xxxx7'
+    //       document.getElementById('content').innerHTML = 'xxxx'
+
+    //       alert(document.getElementById('content').innerHTML)
+
+    //       setTimeout(() => {// 宏任务  
+    //           alert(document.getElementById('content').innerHTML) // 页面更新渲染了吗?
+    //       }, 0); 
+
+    //       Promise.resolve().then(() => { // 微任务 
+    //           alert('promise3') //页面更新渲染了吗?
+    //       }) 
+    //   }
       
-      alert('1111') // 页面渲染了吗?
+    //   alert('1111') // 页面渲染了吗?
+
+    for(let index = 0;index<100000;index++){
+        // setTimeout(()=>{
+        //     document.querySelector('#content').innerText = index;
+        // },10*index)
+
+        Promise.resolve().then(()=>{
+            document.querySelector('#content').innerText = index;
+        })
+    }
 
   </script>
 </body>
