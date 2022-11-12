@@ -64,7 +64,7 @@
                         不能
 
                     面试题3:请问箭头函数是否拥有属于自己的原型对象?
-                        不能
+                        没有
         
         */
 
@@ -80,13 +80,21 @@
 
         //--------------------
 
-        // function fn(){
-        //     console.log(this)
-        // }
+        function fn(){
+            console.log(this)
+        }
 
         var obj = {
             fn:fn
-        }
+        };
+
+        // console.log(obj)
+        var a;
+        // 注意:赋值表达式的返回值就是右侧赋值的数据
+
+        (a = obj.fn)();
+        // (a = 0x001)();
+        console.log(a)
         // fn();
 
         // a.b.c.d.e.f.g.h()    ->  h方法的this就是g,前面的花里胡哨不用管
@@ -96,15 +104,15 @@
 
         // fn.call(obj)
 
-        var fn = ()=>{
-            console.log(this)
-        }
+        // var fn = ()=>{
+        //     console.log(this)
+        // }
         // fn.call(obj)
         // new fn();
 
-        function a(){}
+        // function a(){}
 
-        console.dir(fn)
+        // console.dir(fn)
         // fn();
     </script>
 </body>

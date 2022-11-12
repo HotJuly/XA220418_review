@@ -27,6 +27,7 @@
             console.log(arguments[0]())
             // console.log(arguments.0())
         })(obj.fn);
+        
 
         // var obj= {
         //     fn:function(){
@@ -41,6 +42,14 @@
 
         // obj2.fn();
 
+        function fn(){
+            console.log(this);
+        }
+        // fn();
+
+        var arr = [fn];
+        arr[0]();
+        // arr.0()
     </script>
 </body>
 </html>

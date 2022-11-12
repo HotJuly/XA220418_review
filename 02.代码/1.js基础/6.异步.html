@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /*
+      异步
+        将当前的一件事情放到未来去做,就是所谓的异步(懒)
+        将一段代码延迟到未来的某个时间点执行
+
+      什么叫做回调函数?
+        1.我定义的
+        2.我没调用
+        3.他执行了
+
+      问题:回调函数一定是异步的吗?
+        不一定
+        例如:数组方法的回调函数基本都是同步的,Promise的执行器函数也是同步执行
+
+      异步任务
+        分为宏任务和微任务
+        存储宏任务的队列称为宏任务队列
+        存储微任务的队列称为微任务队列
+
+      队列
+        数据类型:数组
+        特点:先进先出,后进后出
+
+      栈
+        数据类型:数组
+        特点:先进后出,后进先出
+
+      setTimeout会被同步执行,只是他的效果是让内部的回调函数会被异步执行
+
+      宏任务:
+        1.定时器
+        2.事件相关
+        3.请求相关
+
+      微任务:
+        1.then方法
+        2.mutationObserver(HTML5新特性)
+          它可以监视页面上某个节点的变化,如果发生变化就会执行回调函数
+
+      以上这些不是异步任务,他们是开启异步任务的手段/方法
+
+      任务的执行流程:
+        主线程代码优先执行->清空微任务队列->执行下一个宏任务
+        如果执行结束一个宏任务之后,微任务队列中如果有东西,那么就继续清空微任务队列
+      
+
+      面试题:请问是宏任务优先还是微任务优先?
+        如果将script标签中的代码视为第一宏任务,那么宏任务优先
+        如果不将script标签中的代码视为第一宏任务,那么微任务优先
+    
+    */
+    // [1, 2, 3].forEach(item => {
+    //   console.log(item)
+    // })
+    // console.log('a forEach()之后')
+
+    // new Promise((resolve, reject) => { // excutor  执行器函数
+    //   console.log('b 执行excutor')
+    // })
+
+    // console.log('c new Promise()之后')
+
+    // setTimeout(() => {
+    //   console.log('d 执行timout回调')
+    // }, 0);
+
+    // console.log('e setTimeout()之后')
+
+    // Promise.resolve(1).then(() => {
+    //   console.log('f promise成功的回调')
+    // })
+
+    // Promise.resolve(1).then(() => {
+    //   console.log('g promise成功的回调')
+    // })
+
+    // console.log('h .then之后')
+
+    
+    console.log('1')
+
+    setTimeout(() => {
+      console.log('2')
+
+      Promise.resolve(1).then(() => {
+        console.log('3')
+      })
+
+      Promise.resolve(1).then(() => {
+        console.log('4')
+      })
+
+    }, 0);
+
+    setTimeout(() => {
+      console.log('5')
+    }, 0);
+
+  </script>
+</body>
+</html>
