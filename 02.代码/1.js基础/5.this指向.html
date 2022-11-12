@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            this相关
+                this是一个关键字,我们无法声明,但是根据变量对象的观察,
+                    可以发现,this其实就是一个变量(形参)
+
+                    形参->我们声明,在调用函数的时候,我们可以传入实参给形参接收
+                    this->系统声明,在调用函数的时候,系统可以传入不同的对象给this接收
+
+
+                this内部会存储一个对象,代表当前是谁在调用当前函数(当前函数本次的调用者)
+
+                this指向与函数的声明位置无关,与调用方式有关
+
+                this常见指向:
+                    1.普通调用->this是window
+                        例如:fn();
+
+                    2.隐式调用->this是obj(其实就是方法前面的对象)
+                        例如:obj.fn()
+
+                    3.构造调用->this是新创建出来的实例对象
+                        例如:new fn();
+
+                    4.显式调用->this是强行指定的某个对象(此代码的this就是obj)
+                        例如:fn.call(obj)
+
+                        统一词汇:fn是被借调函数,call是借调函数,obj是强行改变的this指向
+
+                特殊的this指向:
+                    1.事件回调函数  ->  事件源
+                        事件源:绑定了事件的元素
+                        触发者:当前事件触发流程中,最内层的元素
+                        
+                    2.定时器    ->  window
+                    3.Vue
+                        methods,computed,watch,生命周期等的this都是当前组件实例对象
+                    4.React
+                        函数组件->undefined
+                        class组件->
+                            a(){}   ->  undefined
+                            a=()=>{}    ->  当前组件实例对象
+
+                    5.小程序
+                        生命周期,事件回调函数等this都是当前页面实例对象
+
+                    6.箭头函数
+                        this指向与调用方式无关,与声明位置有关
+                            他会使用外层作用域的this指向
+
+                    面试题1:请问箭头函数能否使用call,apply,bind强行改变this指向?
+                        不能
+
+                    面试题2:请问箭头函数能够构造调用?
+                        不能
+
+                    面试题3:请问箭头函数是否拥有属于自己的原型对象?
+                        不能
+        
+        */
+
+        // function wrap(){
+        //     function inner(){
+        //         console.log(this)
+        //     }
+        //     // inner();
+        //     return inner;
+        // }
+        // const fn = wrap();
+        // fn();
+
+        //--------------------
+
+        // function fn(){
+        //     console.log(this)
+        // }
+
+        var obj = {
+            fn:fn
+        }
+        // fn();
+
+        // a.b.c.d.e.f.g.h()    ->  h方法的this就是g,前面的花里胡哨不用管
+
+        // obj.fn();
+        // new fn();
+
+        // fn.call(obj)
+
+        var fn = ()=>{
+            console.log(this)
+        }
+        // fn.call(obj)
+        // new fn();
+
+        function a(){}
+
+        console.dir(fn)
+        // fn();
+    </script>
+</body>
+</html>
