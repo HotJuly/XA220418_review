@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var length = 6;
+        var obj = {
+            length:7,
+            fn:function(){
+                return this.length
+            }
+        };
+
+        (function(){
+            var length = 8;
+
+            // arguments他是一个伪数组,用下标存储所有的实参,具有length属性
+            // 他们内部会存储当前函数接收到的所有实参
+            // 伪数组也是一个对象,arguments[0] = >arguments.0
+            // 读取某个对象的属性语法: obj['name'] obj.name
+            
+            console.log(arguments[0]())
+            // console.log(arguments.0())
+        })(obj.fn);
+
+        // var obj= {
+        //     fn:function(){
+        //         console.log(this)
+        //     }
+        // }
+
+        // var obj2 = {
+        //     name:"xiaowang",
+        //     fn:obj.fn
+        // }
+
+        // obj2.fn();
+
+    </script>
+</body>
+</html>
