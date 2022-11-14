@@ -72,8 +72,39 @@
         // console.log(name)
 
         //-----------------------
-        const str = "abbc";
-        console.log(str.includes('bb'));
+        // const str = "abbc";
+        // console.log(str.includes('bb'));
+
+        //-------------------
+        // 意思是收集除了第一个和第二个实参以外的所有实参,并组成一个数组
+        // function fn(a,b,...args){}
+
+        // 意思是将args解构为多个参数,传入fn函数中
+        // fn(...args)
+
+
+        const obj = {
+            name:"xiaoming",
+            age:28
+        }
+
+        // 意思是将obj对象解构在obj2对象中,也就是让obj2获取到obj对象所有的属性名和属性值
+        // 如果出现属性名重复,那么以最后一个为准,前面的都会被覆盖
+        const obj2 = {
+            name:"xiaohong",
+            sex:"男",
+            ...obj,
+        }
+
+        // 意思是收集obj2对象中,除了name属性以外的所有属性,组合成为一个全新的对象
+        const {name,...obj3} = obj2
+
+        // 将arr数组解构在arr2数组中,将arr的所有数据都添加到arr2数组中
+        const arr = [1,2,3];
+        const arr2 = [3,4,...arr];
+
+        // 意思是将除了第一个数据的内容交给one,其余的数据全部存入arr3中,组成一个全新的数组
+        const [one,...arr3] = arr2;
     </script>
 </body>
 </html>
