@@ -37,6 +37,9 @@
             
             .then
                 作用:可以监视某个promise对象状态的变化,当状态发生变化就执行对应的回调函数
+
+                    额外效果:如果前面promise对象的状态已经不是pending了,也会执行对应的回调函数
+                    
                 数据类型:函数
                 接收参数个数:2个
                     参数数据类型:函数
@@ -128,26 +131,60 @@
         // })
 
         //---------------------------------------
+        // var p1 = new Promise((resolve,reject)=>{
+        //     setTimeout(()=>{
+        //         reject(123);
+        //     },1000)
+        // })
+
+        // p1
+        // .then(()=>{
+        //     console.log(1)
+        // },()=>{
+        //     console.log(2)
+        // })
+        // .catch(()=>{
+        //     console.log(3)
+        // })
+        // .then(()=>{
+        //     console.log(4)
+        // },()=>{
+        //     console.log(5)
+        // })
+
+        //--------------------------------
+        
+        // Promise.resolve()
+        // .then(()=>{
+        //     console.log(1)
+        //     throw new Error()
+        // })
+        // // .catch(()=>{
+        // //     console.log(2)
+        // // })
+        // .then(null,()=>{
+        //     console.log(2)
+        // })
+        // .then(()=>{
+        //     console.log(3)
+        // })
+
+        //-------------------------------------
+        
         var p1 = new Promise((resolve,reject)=>{
             setTimeout(()=>{
-                reject(123);
+                resolve();
             },1000)
         })
 
-        p1
-        .then(()=>{
-            console.log(1)
-        },()=>{
-            console.log(2)
-        })
-        .catch(()=>{
-            console.log(3)
-        })
-        .then(()=>{
-            console.log(4)
-        },()=>{
-            console.log(5)
-        })
+        setTimeout(()=>{
+            p1
+            .then(()=>{
+                console.log(1)
+            },()=>{
+                console.log(2)
+            })
+        },2000)
     </script>
 </body>
 </html>
