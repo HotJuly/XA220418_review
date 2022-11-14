@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+            async和await(他们其实是Promise和.then的语法糖)
+                他们是回调地狱的终极解决方法
+                    让我们可以以同步的流程书写异步的代码
+
+                async可以单独使用,await不能单独使用
+                    async函数会被同步执行
+
+                    扩展:最新的ES语法标准,已经允许await单独使用,但是只能在顶层作用域中
+
+                await右侧一般会书写promise对象,而且await表达式的返回值会是右侧promise对象的结果值
+                    await右侧可以书写非promise对象的数据,await表达式会将右侧的数据作为返回值进行返回
+
+                await可以拦截后续代码的执行,但是范围仅限于当前async函数中,对外侧代码没有影响
+                    await会将后续代码延迟执行
+
+                    注意:await不会拦截右侧代码执行
+
+                返回值:一个全新的promise对象(简称p1)
+                    如何控制p1的状态
+                        变为成功
+                            1.只要async函数中所有的代码成功执行结束,那么返回的就是成功状态的p1
+                            2.async函数返回一个成功的promise对象
+
+                        变为失败
+                            1.async函数中的代码执行失败,那么返回的就是失败状态的p1
+                            2.async函数返回一个失败的promise对象,那么返回值就是一个失败状态的p1
+                            3.await右侧是一个失败的promise对象,那么p1也会变为失败状态
+
+                注意:无论async函数返回任何内容,最终async函数都是返回一个promise对象
+
+
+        
+        */
+      //   async function a() {
+      //     console.log(1);
+      //     var result = await new Promise((resolve) => {
+      //       console.log(2);
+      //       setTimeout(() => {
+      //         resolve(123);
+      //       }, 1000);
+      //     });
+      //     console.log(3);
+      //   }
+
+      //   console.log(4);
+      //   a();
+      //   console.log(5);
+
+      //---------------------------------
+
+      //  function a(){
+      //   console.log(1)
+      //   new Promise((resolve)=>{
+      //       console.log(2)
+      //       setTimeout(()=>{
+      //           resolve(123)
+      //       },1000)
+      //   })
+      //   .then(()=>{
+      //       console.log(3)
+      //       return 123;
+      //   })
+      //  }
+
+      //  console.log(4);
+      //  a();
+      //  console.log(5);
+
+      //---------------------------------
+      //   async function a() {
+      //     var result = await 100;
+
+      //     console.log(result);
+      //   }
+
+      //   a();
+
+      //-----------------
+      async function a() {
+        await new Promise((resolve,reject) => {
+          setTimeout(() => {
+            // resolve(123);
+            reject()
+          }, 1000);
+        });
+
+        console.log(1)
+        // throw new Error('xixi')
+        // return Promise.resolve();
+        // return 123;
+        // return Promise.reject();
+      }
+
+      var b = a();
+      console.log(b);
+
+      //----------------------------
+
+    //   function a() {
+    //     return new Promise((resolve,reject) => {
+    //       setTimeout(() => {
+    //         reject(123);
+    //       }, 1000);
+    //     })
+    //     .then(() => {
+    //         console.log(1)
+            // return Promise.resolve();
+    //     });
+    //   }
+
+    //   a();
+    </script>
+  </body>
+</html>
