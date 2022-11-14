@@ -83,28 +83,61 @@
         // fn(...args)
 
 
-        const obj = {
-            name:"xiaoming",
-            age:28
-        }
+        // const obj = {
+        //     name:"xiaoming",
+        //     age:28
+        // }
 
         // 意思是将obj对象解构在obj2对象中,也就是让obj2获取到obj对象所有的属性名和属性值
         // 如果出现属性名重复,那么以最后一个为准,前面的都会被覆盖
-        const obj2 = {
-            name:"xiaohong",
-            sex:"男",
-            ...obj,
-        }
+        // const obj2 = {
+        //     name:"xiaohong",
+        //     sex:"男",
+        //     ...obj,
+        // }
 
         // 意思是收集obj2对象中,除了name属性以外的所有属性,组合成为一个全新的对象
-        const {name,...obj3} = obj2
+        // const {name,...obj3} = obj2
 
         // 将arr数组解构在arr2数组中,将arr的所有数据都添加到arr2数组中
-        const arr = [1,2,3];
-        const arr2 = [3,4,...arr];
+        // const arr = [1,2,3];
+        // const arr2 = [3,4,...arr];
 
         // 意思是将除了第一个数据的内容交给one,其余的数据全部存入arr3中,组成一个全新的数组
-        const [one,...arr3] = arr2;
+        // const [one,...arr3] = arr2;
+
+        //--------------------------
+        // 浅拷贝->经过拷贝之后,从新的对象或者旧的对象进行修改数据,都会导致另外一方发生变化
+        // const obj = {
+        //     name:"xiaoming",
+        //     age:28,
+        //     wife:{
+        //         name:"xiaohua",
+        //         age:18
+        //     }
+        // }
+
+        // const obj2 = {
+        //     ...obj
+        // };
+        // // obj2.name="xiaohong"
+
+        // obj2.wife = JSON.parse(JSON.stringify(obj.wife))
+
+        // obj2.wife.name="wangxiaohua";
+
+
+
+        // console.log(obj2,obj)
+
+        // const obj = {
+        //     fn:function(){
+        //         console.log('fn')
+        //     }
+        // }
+
+        // obj&&obj.fn()
+        // obj?.fn()
     </script>
 </body>
 </html>

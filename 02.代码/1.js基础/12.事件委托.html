@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="wrap">
+      <h1>A</h1>
+      <h1>B</h1>
+      <div>C</div>
+      <div>D</div>
+    </div>
+    <script>
+      // var h1s = document.querySelectorAll('h1');
+      // for (let index = 0; index < h1s.length; index++) {
+      //     const element = h1s[index];
+      //     element.onclick=function(){
+      //         console.log(1)
+      //     }
+      // }
+
+      // var h1 = document.createElement('h1');
+      // h1.innerText="E";
+      // document.body.appendChild(h1)
+
+      /*
+            事件委托
+                将子节点的事件,绑定到父节点身上
+        
+            原理:事件冒泡
+
+            触发者是谁?事件源是谁?
+                触发者->当前事件流程中最内层的元素
+                事件源->绑定了事件的元素
+
+            问题:在原生事件机制中的回调函数中,如何找到触发者?如何找到事件源
+                事件源->this
+                触发者->event.target
+
+            问题2:在Vue或者小程序的事件回调函数中,如何找到触发者?如何找到事件源
+                事件源->event.currentTarget
+                触发者->event.target
+        */
+
+      var wrap = document.querySelector("#wrap");
+    //   wrap.onclick = function () {
+    //     console.log(1);
+    //   };
+
+      var h1 = document.createElement("h1");
+      h1.innerText = "E";
+      wrap.appendChild(h1);
+
+      //------------------------------
+      function bindEvent2(ele, type, fn, selector) {
+        ele.addEventListener(type, function (event) {
+            // 获取到目标元素
+          const target = event.target;
+          if (selector) {
+            // matches方法可以检查前面的元素是否满足后面选择器的要求
+            // 满足返回true,反之为false
+            if (target.matches(selector)) {
+              fn.call(target, event);
+            //   fn();
+            }
+          } else {
+            fn.call(ele, event);
+          }
+        });
+      }
+
+      bindEvent2(wrap,'click',function () {
+        console.log(1,this);
+      },'h1')
+    </script>
+  </body>
+</html>
