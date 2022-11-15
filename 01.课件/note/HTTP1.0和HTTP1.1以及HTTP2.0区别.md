@@ -20,6 +20,14 @@
 
 ​			HTTP 1.1支持长连接（PersistentConnection）和请求的流水线（Pipelining）处理，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟，在HTTP1.1中默认开启Connection： keep-alive
 
+​		请求通道的留存时间是30s
+
+​		之前说的请求并发数限制,指的就是通道的数量,一个通道只能同时给一个请求使用,如果请求没有响应,那么该通道就会一直占用,Chrome和Firefox请求最大并发限制为6个
+
+​		这里说的6个,是跟每个服务器最多建立6个
+
+​		文章:https://blog.csdn.net/qq_42033567/article/details/107804152
+
 
 
 ## HTTP和HTTPS的区别
