@@ -1,9 +1,22 @@
 <template>
   <div id="app">
-    <h1>我是APP的msg数据:{{ msg }}</h1>
-    <!-- <HelloWorld :msg.sync="msg"/> -->
-
-    <HelloWorld :msg="msg" @update:msg="(data) => msg = data" />
+    <HelloWorld msg="Welcome to Your Vue.js App">
+      <template>
+        <h1>我是默认插槽</h1>
+      </template>
+      <!-- <template v-slot:header>
+        <h1>我是header插槽</h1>
+      </template> -->
+      <template #header>
+        <h1>我是header插槽</h1>
+      </template>
+      <!-- <template #footer="scope">
+        <h1>我是footer插槽,{{scope.msg}}</h1>
+      </template> -->
+      <template #footer="{msg}">
+        <h1>我是footer插槽,{{msg}}</h1>
+      </template>
+    </HelloWorld>
   </div>
 </template>
 
@@ -12,26 +25,11 @@ import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  data() {
-    return {
-      msg: "Welcome to Your Vue.js App"
-    }
-  },
   components: {
     HelloWorld
-  },
-  mounted() {
-    this.$bus.$emit('abc', 999)
-    setTimeout(() => {
-      this.$destroy();
-      console.log(1)
-
-      this.msg = "嘿嘿"
-    }, 3000)
   }
 }
 </script>
 
 <style>
-
 </style>
