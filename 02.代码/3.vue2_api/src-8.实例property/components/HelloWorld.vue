@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1 @click="clickHandler">{{ msg }}</h1>
+    <h1>{{ msg }}</h1>
   </div>
 </template>
 
@@ -10,15 +10,11 @@ export default {
   props: {
     msg: String
   },
-  methods:{
-    clickHandler(){
-      this.$emit('update:msg',"我是hello组件修改之后的数据")
-    }
-  },
   mounted(){
-    this.$bus.$on('abc',(data)=>{
-      console.log('abc',data)
-    })
+    // console.log(this.$parent.msg)
+    // console.log(this.$root===this.$parent)
+    // console.log(this.$props,this.$attrs)
+    console.log(this.$listeners)
   }
 }
 </script>
