@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
-    <!-- <h1 @click="clickHandler">{{ value }}</h1> -->
-    <h1 @click="clickHandler">{{ msg }}</h1>
+    <h1>{{ msg }}</h1>
   </div>
 </template>
 
@@ -9,18 +8,13 @@
 export default {
   name: 'HelloWorld',
   props: {
-    msg: String,
-    value:String
+    msg: String
   },
-  model:{
-    prop:"msg",
-    event:"input789"
-  },
-  methods:{
-    clickHandler(){
-      // console.log('clickHandler')
-      this.$emit('input789','666')
-    }
+  mounted(){
+    // console.log(this.$parent.msg)
+    // console.log(this.$root===this.$parent)
+    // console.log(this.$props,this.$attrs)
+    console.log(this.$listeners)
   }
 }
 </script>
