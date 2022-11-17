@@ -7,6 +7,7 @@
   <body>
     <div id="app">
       <p class="b">{{msg}}</p>
+      <p class="b">{{arr.0}}</p>
     </div>
     <script src="./js/observer.js"></script>
     <script src="./js/watcher.js"></script>
@@ -20,11 +21,15 @@
           person:{
             name:"xiaoming",
             msg:"123"
-          }
+          },
+          arr:[6,7,8]
         }
       });
 
       vm.msg = "hello world"
+      setTimeout(()=>{
+        vm.arr[0] = 9;
+      },2000)
 
       /*
         MVVM源码

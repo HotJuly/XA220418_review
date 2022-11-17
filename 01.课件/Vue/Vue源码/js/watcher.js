@@ -2,6 +2,7 @@ function Watcher(vm, exp, cb) {
   // new Watcher(vm, "msg", function(value, oldValue) {
   //     textUpdater && textUpdater(text节点, value, oldValue);
   // });
+  // this.cb.call(vm, value, oldVal);
   // this->watcher对象
 
 
@@ -28,7 +29,7 @@ Watcher.prototype = {
     if (value !== oldVal) {
       this.value = value;
       this.cb.call(this.vm, value, oldVal);
-      // this.cb.call(this.vm, value, oldVal);
+      // this.cb.call(vm, value, oldVal);
     }
   },
   addDep: function (dep) {

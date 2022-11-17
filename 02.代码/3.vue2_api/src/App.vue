@@ -1,22 +1,7 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Welcome to Your Vue.js App">
-      <template>
-        <h1>我是默认插槽</h1>
-      </template>
-      <!-- <template v-slot:header>
-        <h1>我是header插槽</h1>
-      </template> -->
-      <template #header>
-        <h1>我是header插槽</h1>
-      </template>
-      <!-- <template #footer="scope">
-        <h1>我是footer插槽,{{scope.msg}}</h1>
-      </template> -->
-      <template #footer="{msg}">
-        <h1>我是footer插槽,{{msg}}</h1>
-      </template>
-    </HelloWorld>
+    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+      <p class="b">{{arr[0]}}</p>
   </div>
 </template>
 
@@ -25,8 +10,23 @@ import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
+  data(){
+    return{
+      arr:[6,7,8]
+    }
+  },
   components: {
     HelloWorld
+  },
+  mounted(){
+    setTimeout(()=>{
+      this.arr[0] = 9;
+      this.arr.splice(0,1,9);
+
+      // let arr = [7,8,9];
+      // arr.splice(0,1,9);
+      console.log(this.arr)
+    },2000)
   }
 }
 </script>
