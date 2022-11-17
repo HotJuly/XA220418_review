@@ -7,6 +7,7 @@
   <body>
     <div id="app">
       <p class="b">{{msg}}</p>
+      <p class="b">{{person.name}}</p>
       <p class="b">{{arr.0}}</p>
     </div>
     <script src="./js/observer.js"></script>
@@ -26,9 +27,24 @@
         }
       });
 
-      vm.msg = "hello world"
+      // vm.msg = "hello world"
       setTimeout(()=>{
-        vm.arr[0] = 9;
+      //   vm.arr[0] = 9;
+        vm.person.name = "xiaohong";
+        /*
+          以上代码流程:
+            1.首先需要得到vm对象的值,最终得到一个vm实例对象
+            2.通过vm实例对象,读取person属性值,由于person是数据代理新增的属性
+              由于我们是需要获取person的属性值,所以会触发数据代理的get方法
+            3.由于数据代理的get方法出触发,会自动读取vm._data.person的属性值,又出发了数据劫持的get方法
+              由于我们读取了vm._data.person的属性值,所以会把person属性的闭包结果返回给我们
+                这个闭包的结果就是person对象的地址值
+            4.得到person对象的地址值之后,修改person对象身上的name属性的值,赋值为最新结果
+              由于此时是直接从person对象身上找到的name属性,所以没有经过数据代理
+              但是由于name属性之前被数据劫持过,所以此时修改name属性会触发数据劫持的set方法
+        
+        
+        */
       },2000)
 
       /*
