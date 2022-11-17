@@ -63,6 +63,27 @@ function MVVM(options) {
         2.页面会自动显示最新的结果
           找到对应的DOM标签,在将他的文本内容修改掉就可以
   
+
+    准备工作:
+      1.在bind方法中,new Watcher创建watcher实例对象
+      2.watcher调用get方法获取当前表达式的结果
+      3.在获取属性值的过程中,将Dep.target修改成了当前的watcher,并且触发了数据劫持的get方法
+      4.由于当前Dep.target已经有值了,所以会触发dep.depend方法
+      5.在dep.depend方法中,会使用watcher对象调用addDep方法
+        -该方法中实现了,让watcher收集到与自身相关所有dep对象
+        -并且调用dep.addSub(watcher)
+      6.最后,dep对象使用subs数组收集到与自身相关的所有的watcher对象
+
+      小总结:也就是说,最终dep和watcher互相收集到了对方
+
+    更新流程:
+      1.书写vm.msg=123,会触发数据代理的set方法
+      2.在数据代理的set方法中,会修改vm._data的msg属性的值,所以会触发数据劫持的set方法
+      3.在数据劫持的set方法中,会触发dep.notify方法
+      4.在notify方法,会遍历dep对象的subs数组,获取到每一个watcher对象,并调用他们的update方法
+      5.update方法中,会调用cb回调函数,并将最新值传入内部
+      6.cb函数中,会调用textUpdater函数,实现对页面上某个节点的文本内容更新效果
+      
   */
 
 /*
@@ -121,12 +142,20 @@ function MVVM(options) {
         -创建一个watcher对象
           页面上每存在一个插值表达式,就会生成一个对应的watcher对象
 
-
-
   
   */
   this.$compile = new Compile(options.el || document.body, this);
   // this.$compile = new Compile("#app", vm);
+
+  /*
+    问题1:请问Vue1中,数据更新导致DOM更新的范围是多大(项目,组件,节点)
+      在Vue1中,会找到指定的节点进行更新(精准更新)
+  
+    问题2:请问Vue1中,DOM更新是同步更新还是异步更新?
+      在Vue1中,更新DOM是同步更新的(整个流程里面没有出现异步任务)
+      无论是Vue1还是Vue2或者Vue3,他们都是依靠GUI线程更新页面,所以渲染页面一定是异步的
+  */
+
 }
 
 MVVM.prototype = {

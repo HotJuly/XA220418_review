@@ -127,12 +127,19 @@ function Dep() {
 
 Dep.prototype = {
     addSub: function(sub) {
+        // this->dep对象
+      // dep.addSub(watcher);
 
+    //   这一行代码,实现了dep对象使用subs数组收集相关watcher对象
+    // 响应式属性收集到了与他相关的watcher对象
         this.subs.push(sub);
+        // this.subs.push(watcher);
     },
 
     depend: function() {
+        // this->dep对象
         Dep.target.addDep(this);
+        // watcher.addDep(dep);
     },
 
     removeSub: function(sub) {
@@ -146,6 +153,9 @@ Dep.prototype = {
         this.subs.forEach(function(sub) {
             sub.update();
         });
+        // this.subs.forEach(function(sub) {
+        //     watcher.update();
+        // });
         
     }
 };

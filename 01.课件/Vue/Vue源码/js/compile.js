@@ -179,10 +179,13 @@ var compileUtil = {
 
         // 每执行一次bind方法,就会生成一个全新的watcher对象
         // 总结:页面上每存在一个插值表达式,就会生成一个对应的watcher对象
-        // new Watcher(vm, exp, function(value, oldValue) {
-        //     updaterFn && updaterFn(node, value, oldValue);
-        // });
+        new Watcher(vm, exp, function(value, oldValue) {
+            updaterFn && updaterFn(node, value, oldValue);
+        });
 
+        // new Watcher(vm, "msg", function(value, oldValue) {
+        //     textUpdater && textUpdater(text节点, value, oldValue);
+        // });
     },
 
     // 事件处理
