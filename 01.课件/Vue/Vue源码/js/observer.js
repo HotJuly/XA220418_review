@@ -97,6 +97,7 @@ Observer.prototype = {
         //          从此处可以看出,给响应式属性赋值,如果属性值是一个对象,那么内部的属性也会变成响应式的
         //         childObj = observe(newVal);
                 
+        //          此处是在通知DOM进行更新
         //         dep.notify();
         //     }
         // });

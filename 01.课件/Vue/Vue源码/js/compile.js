@@ -1,4 +1,7 @@
 function Compile(el, vm) {
+  // this.$compile = new Compile("#app", vm);
+//   this->com实例
+
     this.$vm = vm;
 
     this.$el = this.isElementNode(el) ? el : document.querySelector(el);
@@ -6,7 +9,9 @@ function Compile(el, vm) {
     if (this.$el) {
 
         this.$fragment = this.node2Fragment(this.$el);
+        // this.$fragment = this.node2Fragment(this.$el);
 
+        // 此处开始正式解析模版
         this.init();
 
         this.$el.appendChild(this.$fragment);
@@ -16,9 +21,13 @@ function Compile(el, vm) {
 
 Compile.prototype = {
     node2Fragment: function(el) {
+        // this.$fragment = this.node2Fragment(this.$el);
+        // 创建一个文档碎片
         var fragment = document.createDocumentFragment(),
             child;
 
+        // 此处在对el元素内部,实行抄家政策,内部所有子节点全部转移到文档碎片中
+        // 无论如何操作文档碎片中的节点,页面都不会发生重绘重排
         while (child = el.firstChild) {
             fragment.appendChild(child);
         }
@@ -31,6 +40,9 @@ Compile.prototype = {
     },
 
     compileElement: function(el) {
+        // this.compileElement(this.$fragment);
+        // childNodes = [text节点,p元素节点,text节点]
+        // childNodes = [text节点]
         var childNodes = el.childNodes,
             me = this;
 
@@ -50,11 +62,33 @@ Compile.prototype = {
             }
         });
 
+        // [text节点,p元素节点,text节点].forEach(function(node) {
+        // [text节点].forEach(function(node) {
+        //      第一次:text->p元素的文本内容->"{{msg}}"
+        //      第二次:text->文本节点的文本内容->"{{msg}}"
+        //     var text = node.textContent;
+        //     var reg = /\{\{(.*)\}\}/;
+
+        //     if (com.isElementNode(node)) {
+        //         com.compile(p元素);
+
+        //     } else if (me.isTextNode(node) && reg.test(text)) {
+        //         me.compileText(node, RegExp.$1);
+        //         com.compileText(text节点, "msg");
+        //     }
+
+        //     if (node.childNodes && node.childNodes.length) {
+        //         com.compileElement(p元素节点);
+        //     }
+        // });
+
     },
 
     compile: function(node) {
+        // com.compile(p元素);
         var nodeAttrs = node.attributes,
             me = this;
+        // console.log(nodeAttrs);
 
         [].slice.call(nodeAttrs).forEach(function(attr) {
             var attrName = attr.name;
@@ -75,7 +109,9 @@ Compile.prototype = {
     },
 
     compileText: function(node, exp) {
+        //com.compileText(text节点, "msg");
         compileUtil.text(node, this.$vm, exp);
+        // compileUtil.text(text节点, vm, "msg");
         
     },
 
@@ -99,7 +135,10 @@ Compile.prototype = {
 // 指令处理集合
 var compileUtil = {
     text: function(node, vm, exp) {
+        // this->compileUtil
+        // compileUtil.text(text节点, vm, "msg");
         this.bind(node, vm, exp, 'text');
+        // this.bind(text节点, vm, "msg", 'text');
 
     },
 
@@ -128,13 +167,21 @@ var compileUtil = {
     },
 
     bind: function(node, vm, exp, dir) {
+        // this.bind(text节点, vm, "msg", 'text');
+
+        // 从updater对象身上,找到一个专门用于更新文本的更新器函数
         var updaterFn = updater[dir + 'Updater'];
+        // var updaterFn = updater['textUpdater'];
 
         updaterFn && updaterFn(node, this._getVMVal(vm, exp));
+        // textUpdater && textUpdater(text节点, this._getVMVal(vm, "msg"));
+        // textUpdater && textUpdater(text节点, "hello mvvm");
 
-        new Watcher(vm, exp, function(value, oldValue) {
-            updaterFn && updaterFn(node, value, oldValue);
-        });
+        // 每执行一次bind方法,就会生成一个全新的watcher对象
+        // 总结:页面上每存在一个插值表达式,就会生成一个对应的watcher对象
+        // new Watcher(vm, exp, function(value, oldValue) {
+        //     updaterFn && updaterFn(node, value, oldValue);
+        // });
 
     },
 
@@ -149,12 +196,21 @@ var compileUtil = {
     },
 
     _getVMVal: function(vm, exp) {
+        // this._getVMVal(vm, "msg")
+
+        // 假设:exp是person.name
+
         var val = vm._data;
 
+        // exp=>["msg"]
+        // exp=>["person","name"]
         exp = exp.split('.');
 
+        // 此处会多次触发数据劫持的get方法,但是不会触发数据代理的get
         exp.forEach(function(k) {
             val = val[k];
+            // val = vm._data["person"];
+            // val = person["name"];
         });
 
         return val;
@@ -176,6 +232,7 @@ var compileUtil = {
 
 var updater = {
     textUpdater: function(node, value) {
+        // textUpdater(text节点, "hello mvvm");
         node.textContent = typeof value == 'undefined' ? '' : value;
     },
 
