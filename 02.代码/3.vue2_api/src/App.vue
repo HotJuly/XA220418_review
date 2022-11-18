@@ -1,27 +1,27 @@
 <template>
   <div id="app">
-    <ul>
-      <li v-for="(item,index) in arr" :key="index">
-        <label>{{item}}</label>
-        <input type="text">
-      </li>
-    </ul>
-    <button @click="add">添加</button>
+    <router-view></router-view>
+    <router-link to="/home">toHome</router-link>
+    <!-- <router-link to="/about">toAbout</router-link> -->
+    <button @click="toAbout">toAbout</button>
   </div>
 </template>
 
 <script>
+import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  data(){
-    return{
-      arr:[1,2,3,4,5,6]
-    }
+  components: {
+    HelloWorld
+  },
+  mounted(){
+    console.log(this.$router,this.$route)
   },
   methods:{
-    add(){
-      this.arr.splice(1,0,7)
+    toAbout(){
+      this.$router.push('/about');
+      // this.$router.replace('/about');
     }
   }
 }
