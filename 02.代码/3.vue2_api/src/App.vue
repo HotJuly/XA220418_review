@@ -1,40 +1,31 @@
 <template>
   <div id="app">
-
-    <!-- <BigImage v-bind="$data"> -->
-    <BigImage :src="url" :preview-src-list="srcList">
-      <template #content="{ listeners }">
-        <h1 v-on="listeners">bigImage</h1>
-        <!-- <h1 @click="handler">bigImage</h1> -->
-      </template>
-    </BigImage>
-
+    <ul>
+      <li v-for="(item,index) in arr" :key="index">
+        <label>{{item}}</label>
+        <input type="text">
+      </li>
+    </ul>
+    <button @click="add">添加</button>
   </div>
 </template>
 
 <script>
-import BigImage from '@/components/BigImage'
 
 export default {
   name: 'App',
-  data() {
-    return {
-      msg: "我是初始化数据",
-      url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-      srcList: [
-        'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-        'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-      ]
+  data(){
+    return{
+      arr:[1,2,3,4,5,6]
     }
   },
-  components: {
-    BigImage,
-  },
-  mounted() {
-  },
+  methods:{
+    add(){
+      this.arr.splice(1,0,7)
+    }
+  }
 }
 </script>
 
 <style>
-
 </style>

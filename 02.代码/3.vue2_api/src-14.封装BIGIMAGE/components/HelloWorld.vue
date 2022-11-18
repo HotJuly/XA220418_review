@@ -9,6 +9,12 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  mounted(){
+    // console.log(this.$parent.msg)
+    // console.log(this.$root===this.$parent)
+    // console.log(this.$props,this.$attrs)
+    console.log(this.$listeners)
   }
 }
 </script>
