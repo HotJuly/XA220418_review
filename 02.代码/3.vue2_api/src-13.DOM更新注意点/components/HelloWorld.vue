@@ -10,11 +10,17 @@ export default {
   props: {
     msg: String
   },
+  beforeCreate(){
+    console.log('-------Hello beforeCreate--------')
+  },
+  created(){
+    console.log('-------Hello created--------')
+  },
+  beforeMount(){
+    console.log('-------Hello beforeMount--------')
+  },
   mounted(){
-    // console.log(this.$parent.msg)
-    // console.log(this.$root===this.$parent)
-    // console.log(this.$props,this.$attrs)
-    console.log(this.$listeners)
+    console.log('-------Hello mounted--------')
   }
 }
 </script>
