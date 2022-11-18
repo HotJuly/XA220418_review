@@ -16,7 +16,7 @@ export default {
     HelloWorld
   },
   mounted(){
-    console.log(this.$router,this.$route)
+    // console.log(this.$router,this.$route)
   },
   methods:{
     toAbout(){
