@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <router-link to="/home">toHome</router-link>
+    <router-link tag="h1" to="/home">toHome</router-link>
     <!-- <router-link to="/about">toAbout</router-link> -->
     <button @click="toAbout">toAbout</button>
   </div>
