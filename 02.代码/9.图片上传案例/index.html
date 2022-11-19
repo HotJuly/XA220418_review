@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" id="file" >
+    <img id="image" src="" />
+    <script>
+        let file = document.querySelector('#file');
+
+        /*
+            流程:
+                1.现在页面上添加input[type=file],方便用户选文件
+                2.给该标签绑定事件change,用于监视用户是否选择了文件
+                    选择结束就会触发change事件的回调函数
+                3.通过回调函数的this,获取到本次读取文件对象
+                4.创建formData对象,并将读取到的文件数据添加到formData对象中
+                5.将该formData对象使用axios发送给公司服务器
+        */
+        file.onchange =async function(){
+            // console.dir(this);
+            const file = this.files[0];
+
+            const formData = new FormData();
+
+            formData.append('file',file);
+            // console.log(formData)
+
+            const result = await axios.post('http://localhost:3000/upload',formData);
+            // console.log(result);
+
+            let image = document.querySelector('#image');
+
+            image.src='http://localhost:3000'+result.data;
+
+        }
+    </script>
+    <script src="./axios.js"></script>
+</body>
+</html>

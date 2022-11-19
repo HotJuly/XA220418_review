@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>上传文件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <body>
+    <input type="file" id="uploaderInput" multiple="multiple" />
+    <div id="videoContent" style="visibility:hidden">
+      <video id="video" src="" style="width:400px" muted autoplay controls></video>
+    </div>
+    进度:
+    <div id="process">0</div>
+  </body>
+</html>
+<script src="./js/jquery-1.12.4.js"></script>
+<script src="./js/md5.js"></script>
+<script src="./js/axios.js"></script>
+<script>
+  $('#uploaderInput').on('change',function(){
+    // console.dir(this)
+    // 获取到当前用户选中的文件
+    const file = this.files[0];
+
+    uploadOne(file);
+  })
+
+  async function uploadOne(file){
+    if(!file)return;
+
+    // 为了获取到当前文件的唯一标识
+    // 只要文件内容相同,那么生成的hash值也一定相同
+    const hash = await getHash(file);
+
+    // 获取到当前文件中最后一个.的下标
+    const i = file.name.lastIndexOf('.');
+
+    // 拼接成为一个全新的文件名称
+    const filename = file.name.slice(0,i) + new Date().getTime() + file.name.slice(i);
+
+    // 获取到当前文件的大小
+    const size = file.size;
+
+    // 每次分享的文件大小,此处写法代表2MB
+    const shareSize = 2*1024*1024;
+
+    // 计算出一共要发送多少份数据
+    const total = Math.ceil(size/shareSize);
+
+    // 用来记录当前已经发了多少份
+    let index = 0;
+
+    upload();
+
+    async function upload(){
+
+      const start = index * shareSize;
+
+      // 此处注意,数值计算看请求
+      const end = (index+1)*shareSize>size?size:(index+1)*shareSize;
+
+      // 通过start和end可以切割出当前上传的文件内容
+      const data = file.slice(start,end);
+
+      const formData = new FormData();
+
+      formData.append('hash',hash);
+      formData.append('total',total);
+      formData.append('index',index);
+      formData.append('data',data);
+      formData.append('filename',filename);
+      formData.append('size',size);
+
+      const result = await axios.post('/uploadVideo',formData);
+
+      index++;
+
+      if(index<total){
+        $('#process').text(result.data.process)
+        upload();
+      }else{
+        // console.log(result);
+        $('#process').text(result.data.msg);
+        $('#videoContent').css('visibility','visible');
+        $('#video').attr('src',result.data.videoUrl);
+      }
+
+    }
+  }
+
+  function getHash(file){
+    return new Promise((resolve)=>{
+      const reader = new FileReader();
+      // 会将读取到的文件变成字符串的形式,也即是把文件变成base64格式输出
+      reader.readAsDataURL(file);
+
+      // 由于读取文件是异步操作,所以需要绑定事件监听,监视文件什么时候读取结束
+      reader.onload=function(e){
+        // console.log(e)
+        const data = e.target.result;
+
+        // 根据得到的data字符串,生成一个唯一标识hash值
+        const hash = hex_md5(data);
+
+        resolve(hash)
+      }
+    })
+  }
+</script>
