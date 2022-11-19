@@ -31,6 +31,18 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 
+/*
+  路由分为三种
+    1.常量路由
+      无论是什么账号权限,都可以使用的路由
+
+    2.异步路由
+      只有拥有特殊的权限明才能够使用的路由
+
+    3.任意路由
+      用于匹配任意路径,最终重定向到404路由
+
+*/
 export const constantRoutes = [
   {
     path: '/login',
@@ -52,10 +64,12 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard',name: 'Dashboard' }
     }]
-  },
-  
+  }
+]
+
+export const asyncRoutes = [
   {
     path: '/product',
     component: Layout,
@@ -66,30 +80,32 @@ export const constantRoutes = [
         path: 'trademark/list',
         name: 'Trademark',
         component: () => import('@/views/product/trademark/list'),
-        meta: { title: '品牌管理'}
+        meta: { title: '品牌管理',name: 'Trademark'}
       },
       {
         path: 'attr/list',
         name: 'Attr',
         component: () => import('@/views/product/attr/list'),
-        meta: { title: '属性管理'}
+        meta: { title: '属性管理',name: 'Attr'}
       },
       {
         path: 'spu/list',
         name: 'Spu',
         component: () => import('@/views/product/spu/list'),
-        meta: { title: 'SPU管理'}
+        meta: { title: 'SPU管理',name: 'Spu'}
       },
       {
         path: 'sku/list',
         name: 'Sku',
         component: () => import('@/views/product/sku/list'),
-        meta: { title: 'SKU管理'}
+        meta: { title: 'SKU管理',name: 'Sku'}
       }
     ],
-    meta: { title: '商品管理', icon: 'el-icon-s-shop' }
-  },
-  
+    meta: { title: '商品管理', icon: 'el-icon-s-shop' ,name: 'Product'}
+  }
+]
+
+export const anyRoutes = [
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

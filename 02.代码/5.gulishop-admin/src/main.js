@@ -58,6 +58,22 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
+Vue.directive('has-permission',{
+  inserted(el,{value}){
+    // el->当前使用了指令的节点的真实DOM
+    // value->是当前指令接收的属性值
+    // console.log('inserted',el,value)
+
+    // 获取到当前账号拥有的所有按钮级别的权限信息
+    const buttons = store.state.user.buttons;
+
+    // if(!buttons.includes(value)){
+    if(!buttons[value]){
+      el.parentNode.removeChild(el)
+    }
+  }
+})
+
 
 new Vue({
   el: '#app',
