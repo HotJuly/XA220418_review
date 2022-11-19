@@ -1,0 +1,24 @@
+<template>
+  <div class="hello">
+    <h1>hello</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'HelloWorld'
+}
+</script>
+
+<script setup>
+const emits = defineEmits(["abc"]);
+// console.log('emits',emits)
+
+setTimeout(()=>{
+  emits("abc",123)
+},2000)
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+</style>

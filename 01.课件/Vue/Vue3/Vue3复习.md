@@ -11,7 +11,7 @@
   - 将功能以多个函数提供出来, 我们会进行按需引入使用
   - 引入`tree-shaking`, 可以在打包压缩时, 将无用模块“摇掉”
 - 性能更好/更快
-  - 使用proxy代替defineProperty来实现响应式效果
+  - 使用Proxy代替defineProperty来实现响应式效果
 
   - diff算法优化: 静态虚拟节点添加静态标记, 不进行diff比较
 
