@@ -94,7 +94,7 @@
 问题:为什么具有login和info两个接口?
 原因:通过login接口可以获取到用户的token数据,我们会将token数据保存在Vuex和localStorage中
     保存在Vuex中,是为了本次项目能够快速读取token,加快计算速度
-    保存在localSTorage中,是为了下次启动项目,能够获取到上次的token,直接请求info接口,获取到用户的信息
+    保存在localStorage中,是为了下次启动项目,能够获取到上次的token,直接请求info接口,获取到用户的信息
         也就是所谓的7天免登陆
 
     注意:token是否过期,是由后端判断的,如果过期了,后端会返回401状态,告知前端token过期
